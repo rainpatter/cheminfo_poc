@@ -1,0 +1,101 @@
+Chemical Name,SMILES,Mutagenic
+Water,O,No
+Ethanol,CCO,No
+Methanol,CO,No
+Acetic acid,CC(O)C=O,No
+Acetone,CC(C)=O,No
+Benzene,c1ccccc1,Yes
+Toluene,Cc1ccccc1,No
+Ethylene glycol,OCCO,No
+Sodium chloride,[Na+].[Cl-],No
+Hydrochloric acid,Cl,No
+Sulfuric acid,O=S(=O)(O)O,No
+Nitric acid,O=N(=O)O,No
+Ammonia,N,No
+Formaldehyde,C=O,Yes
+Urea,NC(=O)N,No
+Chloroform,CCL3,Yes
+Hydrogen peroxide,O[O],No
+Sodium hydroxide,[Na+].[OH-],No
+Potassium permanganate,O=[Mn]1(OOO)O1,No
+Calcium carbonate,O=C(O)C(O)=O,No
+Sodium bicarbonate,C(=O)O.[Na+],No
+Calcium chloride,ClCaCl,No
+Magnesium sulfate,O=S([O-])=O.[Mg+2],No
+Sodium sulfate,O=S([O-])=O.[Na+],No
+Potassium chloride,Cl[K+],No
+Potassium hydroxide,[K+].[OH-],No
+Acetone,CC(C)=O,No
+Propylene glycol,C(CO)CO,No
+Butanol,CCCC(O),No
+Pentanol,CCCCC(O),No
+Hexane,CCCCCCC,No
+Heptane,CCCCCCCC,No
+Octane,CCCCCCCC,No
+Nonane,CCCCCCCCC,No
+Decane,CCCCCCCCCC,No
+Xylene,CC1=CC2=CC=CC=C2C=C1,Yes
+Ethyl acetate,CC(=O)OCC,No
+Isopropyl alcohol,CC(C)O,No
+Cyclohexane,C1CCCCC1,No
+Cyclohexanone,C1CCCCC1=O,No
+Phenol,c1cc(ccc1O),No
+Aniline,c1ccc(cc1)N,Yes
+Chlorobenzene,c1ccccc1Cl,Yes
+Benzaldehyde,c1ccc(cc1C=O),No
+Benzoic acid,c1ccc(cc1C(=O)O),No
+Toluene,Cc1ccccc1,No
+Phenylalanine,NC@@HC(=O)O,No
+Caffeine,CN1C=NC2=C1C(=O)N(C(=O)N2C)C,No
+Aspirin,CC(=O)OC1=CC=CC=C1C(=O)O,No
+Ibuprofen,CC(C)CC1=CC2=C(C=C1)C(=O)O2,No
+Paracetamol,CC(=O)NC1=CC=C(C=C1)O,No
+Glucose,C(C1C(C(C(C(C1O)O)O)O)O)O,No
+Fructose,C(C1C(C(C(C(C1O)O)O)O)O)O,No
+Sucrose,C1C(C(C(C(C1O)O)O)O)O,No
+Lactic acid,CC(O)C(=O)O,No
+Citric acid,O=C(C(C(O)=O)C(O)=O)C(O)=O,No
+Ascorbic acid,C1C(C(C(C(C1O)O)O)O)O,No
+Salicylic acid,C1=CC(=CC=C1C(=O)O),No
+Vitamin D3,CC(C)C1=CC(C=CC=CC2C1=CC=CC2)C(C)C,
+Cholesterol,CC(C)CC(C)C(C)C1=CC(C)C(C)C2=CC=C(C)C2=C1,
+Lipid,CC(C)C(C)C(C)C1=CC(C)C(C)C2=CC=C(C)C2=C1,
+Retinol,C[C@@H]1CCCCC@@HC1=CC@HC=CC=C1,
+Amino acid,CC(C(=O)O)N,No
+Methane,C,No
+Ethylene,C=C,No
+Propylene,CC=C,No
+Butylene,CCCC,No
+Isobutylene,C=C(C)C,No
+Styrene,C1=CC=C(C=C1)C,Yes
+Acetylene,C#C,No
+Formic acid,C=O,No
+Methylamine,CN,No
+Dimethylamine,CNC,No
+Trimethylamine,CN(C)C,No
+Ethylamine,CCN,No
+Aniline,c1ccc(cc1)N,Yes
+Dichloromethane,CCl2,Yes
+Iodomethane,CI,No
+Bromomethane,CBr,No
+Tetrachloromethane,CCl4,Yes
+Chloroform,CCL3,Yes
+Nitrobenzene,c1ccc(cc1)N+[O-],Yes
+Acetonitrile,CC#N,No
+Acrylic acid,C=CC(=O)O,No
+Propionic acid,CC(C(=O)O)C,No
+Butyric acid,CCCC(C(=O)O),No
+Glutamic acid,C(C(C(C(=O)O)N)C(=O)O)O,No
+Cysteine,C(C(C(=O)O)N)S,No
+Methionine,CC(C(=O)O)NCCS,No
+Tryptophan,C1=C2C=CC3=C2C=CC=C1C3=CN,No
+Histidine,C1=CC2=C(C=C1)C(=NN2)C(C(=O)O)N,No
+Serotonin,C1=CC2=C(C=C1O)C(=CC3=C2C=CC=C3)N,
+Adrenaline,CC(C(=O)O)NC1=CC2=C(C=C1)C(=CC(C2)O)C,
+Dopamine,C1=CC(=CC2=C1C(=CC2)O)O,No
+Norepinephrine,CC(C(=O)O)NC1=CC2=C(C=C1)C(=CC(C2)O)O,
+Histamine,C1=CC2=C(C=C1)C(=CC=C2C(=O)N)C,
+Progesterone,CC1C(C2=C(C1)C(=O)C(C2)C)C,No
+Testosterone,CC1C(C2=C,
+Cortisol,CC1C(C2=C(C1)C(=O)C(C2)C)CC3=CC4=C(C=C3)C(=O)C4,No
+Estradiol,CC1=CC2=C(C(=O)C(C2=C1)O)C(C)C,No

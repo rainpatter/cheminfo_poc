@@ -1,14 +1,16 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    {% for table in tables %}
-        {{titles[loop.index]}}
-        {{ table|safe}}
-    {% endfor %}
-</body>
-</html>
+{% extends 'base.html' %}
+
+{% block content %}
+    <table>
+        {% for key in json[0][0] %}
+            <th>{{key}}</th>
+        {% endfor %}
+        {% for value in json[0] %}
+        <tr>
+            <td><a href="{{'/ames/%s'%value.index}}">{{value['Chemical Name']}}</a></td>
+            <td>{{value['SMILES']}}</td>
+            <td>{{value['Mutagenic']}}</td>
+        </tr>
+        {% endfor %}
+    </table>
+{% endblock%}
