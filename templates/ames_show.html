@@ -1,7 +1,20 @@
 {% extends 'base.html' %}
 
 {% block content %}
+    <div class="options">
+    <a href="/ames_entry">Search again</a>
+    <a href="/all_ames">Previous searches</a>
+</div>
+    <table>
+            <th>Input received</th>
+            <th>SMILES</th>
+            <th>AMES prediction</th>
+        <tr>
+            <td>{{json['Input received']}}</td>
+            <td>{{json['Input SMILES']}}</td>
+            <td>{{json['Ames prediction']}}</td>
+        </tr>
+    </table>
 
-    <p>{{dict}}</p>
 
 {% endblock%}

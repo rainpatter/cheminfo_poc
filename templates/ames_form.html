@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    {% if list|length > 0 %}
+    <div class="options">
+        <a href="/all_ames">Previous searches</a>
+        <a href="/model">View model assumptions</a>
+    </div>
+    {% endif %}
+    {% with messages = get_flashed_messages() %}
+  {% if messages %}
+    <ul class=flashes>
+    {% for message in messages %}
+      <li>{{ message }}</li>
+    {% endfor %}
+    </ul>
+  {% endif %}
+{% endwith %}
+    <div class="input-form">
+    <form method="post">
+        <input type="text" name="smiles"
+            placeholder="SMILES string"
+            value="{{ request.form['SMILES'] }}"></input>  
+        <button type="submit">Submit SMILES</button>
+    </form>
+</div>
+
+{% endblock%}

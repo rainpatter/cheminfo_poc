@@ -2,14 +2,14 @@
 
 {% block content %}
     <table>
-        {% for key in json[0][0] %}
+        {% for key in list[0] %}
             <th>{{key}}</th>
         {% endfor %}
-        {% for value in json[0] %}
+        {% for item in list %}
         <tr>
-            <td><a href="{{'/ames/%s'%value.index}}">{{value['Chemical Name']}}</a></td>
-            <td>{{value['SMILES']}}</td>
-            <td>{{value['Mutagenic']}}</td>
+            <td>{{item['Input received']}}</a></td>
+            <td>{{item['Input SMILES']}}</td>
+            <td>{{item['Ames prediction']}}</td>
         </tr>
         {% endfor %}
     </table>

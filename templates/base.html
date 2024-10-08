@@ -6,15 +6,18 @@
     <title>{% block title %} {% endblock %}</title>
     <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/main.css') }}">
 </head>
-<body>
-    <header>
-        <h1>A Cheminformatics Tool</h1>
-    </header>
-    <nav>
-        <a href="/ames">Ames data</a>
-    </nav>
-    <div class="content">
-        {% block content %} {% endblock %}
-    </div>
-</body>
+
+    <body>
+        <header>
+            <h1>CSU Cheminformatics Test</h1>
+        </header>
+        <nav>
+            <a href="/">All modules</a>
+            <a href="/about">About</a>
+        </nav>
+        <div class="content">
+            {% block content %} {% endblock %}
+        </div>
+        <footer>&#169; Australian Industrial Chemicals Introduction Scheme 2024</footer>
+    </body>
 </html>
