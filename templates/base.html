@@ -1,23 +1,27 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>{% block title %} {% endblock %}</title>
-    <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/main.css') }}">
-</head>
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="{{ url_for('static',filename='styles/main.css') }}"
+    />
+  </head>
 
-    <body>
-        <header>
-            <h1>CSU Cheminformatics Test</h1>
-        </header>
-        <nav>
-            <a href="/">All modules</a>
-            <a href="/about">About</a>
-        </nav>
-        <div class="content">
-            {% block content %} {% endblock %}
-        </div>
-        <footer>&#169; Australian Industrial Chemicals Introduction Scheme 2024</footer>
-    </body>
+  <body>
+    <header>
+      <h1>CSU Cheminformatics Test</h1>
+    </header>
+    <nav>
+      <a href="/">All modules</a>
+      <a href="/about">About</a>
+    </nav>
+    <div class="content">{% block content %} {% endblock %}</div>
+    <footer>
+      &#169; Australian Industrial Chemicals Introduction Scheme 2024
+    </footer>
+  </body>
 </html>

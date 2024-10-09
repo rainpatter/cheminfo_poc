@@ -34,6 +34,7 @@ itsdangerous==2.1.0
 jedi==0.19.1
 jeepney==0.7.1
 Jinja2==3.0.3
+joblib==1.4.2
 keyring==23.5.0
 language-selector==0.1
 launchpadlib==1.10.16
@@ -60,6 +61,7 @@ platformdirs==2.5.1
 prompt_toolkit==3.0.47
 protobuf==3.12.4
 ptyprocess==0.7.0
+PubChemPy==1.0.4
 pure_eval==0.2.3
 pycairo==1.20.1
 pycups==2.0.1
@@ -78,14 +80,18 @@ python-debian==0.1.43+ubuntu1.1
 pytz==2022.1
 pyxdg==0.27
 PyYAML==5.4.1
+rdkit==2024.3.5
 reportlab==3.6.8
 requests==2.25.1
+scikit-learn==1.5.2
+scipy==1.14.1
 SecretStorage==3.3.1
 simplejson==3.17.6
 six==1.16.0
 ssh-import-id==5.11
 stack-data==0.6.3
 systemd-python==234
+threadpoolctl==3.5.0
 traitlets==5.14.3
 typing_extensions==4.12.2
 tzdata==2024.1

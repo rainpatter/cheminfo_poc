@@ -9,10 +9,12 @@
             <th>Input received</th>
             <th>SMILES</th>
             <th>AMES prediction</th>
+            <th>Image</th>
         <tr>
             <td>{{json['Input received']}}</td>
             <td>{{json['Input SMILES']}}</td>
             <td>{{json['Ames prediction']}}</td>
+            <td><img src="data:image/jpeg;base64,{{img_data}}" alt=""></td>
         </tr>
     </table>
 

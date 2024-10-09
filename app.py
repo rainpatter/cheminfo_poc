@@ -1,56 +1,55 @@
 from flask import Flask, render_template, request, url_for, flash, redirect
 
-# import data_functions
-
 from ames.ames import AmesPredictor
-from rdkit import Chem
-from rdkit.Chem import Draw
 
-import json
+from utils.data_handlers import generate_image
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'aicis'
 
 all_results = []
-smiles_message = {}
+all_images = []
+
 
 @app.route("/")
 def home():
     return render_template('index.html')
 
-@app.route('/ames_entry', methods=('GET', 'POST')) 
+
+@app.route('/ames_entry', methods=('GET', 'POST'))
 def ames_entry():
     if request.method == 'POST':
         smiles = request.form['smiles']
         if not smiles:
             flash('SMILES are required')
-            
         else:
-            result = AmesPredictor(smiles)
-            
-            all_results.append(result)
-            m = Chem.MolFromSmiles(smiles)
-            image = Draw.MolToImage(m)
-            print(image)
-            print(result)
-            print(result['Input SMILES'])
-            return redirect(url_for('ames_data'))
-    
+            try:
+                result = AmesPredictor(smiles)
+                all_results.append(result)
+                image = generate_image(smiles)
+                all_images.append(image)
+                return redirect(url_for('ames_data'))
+            except:
+                flash('Invalid SMILES string')
     return render_template('ames_form.html', list=all_results)
 
 
 @app.route("/ames")
 def ames_data():
     current_result = all_results[-1]
-    return render_template('ames_show.html', json=current_result)
+    current_image = all_images[-1]
+    return render_template('ames_show.html', json=current_result, img_data=current_image.decode('utf-8'))
+
 
 @app.route('/all_ames')
 def all_ames_data():
     return render_template('ames_index.html', list=all_results)
 
+
 @app.route('/about')
 def about():
     return render_template('about.html')
+
 
 @app.route('/model')
 def model():
@@ -68,4 +67,3 @@ def model():
 
 # if __name__ == "__main__":
 #     app.run()
-
