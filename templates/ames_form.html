@@ -7,22 +7,23 @@
         <a href="/model">View model assumptions</a>
     </div>
     {% endif %}
-    {% with messages = get_flashed_messages() %}
-  {% if messages %}
-    <ul class=flashes>
-    {% for message in messages %}
-      <li>{{ message }}</li>
-    {% endfor %}
-    </ul>
-  {% endif %}
-{% endwith %}
+  {% with messages = get_flashed_messages() %}
+    {% if messages %}
+      <ul class=flashes>
+      {% for message in messages %}
+        <li>{{ message }}</li>
+      {% endfor %}
+      </ul>
+    {% endif %}
+  {% endwith %}
     <div class="input-form">
     <form method="post">
-        <input type="text" name="smiles"
+        <input id="jme_output" type="text" name="smiles"
             placeholder="SMILES string"
             value="{{ request.form['SMILES'] }}"></input>  
         <button type="submit">Submit SMILES</button>
     </form>
+    <div id="jsme_container"></div>
+      <button type="button" onclick='getSmiles();'>Get SMILES from drawn structure</button>
 </div>
-
 {% endblock%}

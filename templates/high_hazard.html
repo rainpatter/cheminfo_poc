@@ -1,0 +1,26 @@
+{% extends 'base.html' %} {% block content %}
+<!-- {% for result in results %}
+    <p>{{result}}</p>
+{% endfor %} -->
+
+<div class="display-table">
+    <table>
+            <thead>
+                <tr>
+                    {% for key in results[0] %}
+                    <th>{{ key }}</th>
+                    {% endfor %}
+                </tr>
+            </thead>
+            <tbody>
+                {% for result in results %}
+                <tr>
+                    {% for key in results[0] %}
+                        <td>{{result[key]}}</td>
+                    {% endfor %}
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}

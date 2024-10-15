@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    {% for result in results %}
+        <div class="chemical-card">
+        <table>
+            
+        {% for key in results[0] %}
+        <tr>
+            <td id="tag">{{key}}</td>
+            <td>{{result[key]}}</td>
+        </tr>
+        {% endfor %}
+            
+    </table>
+        </div>
+    {% endfor %}
+{% endblock%}

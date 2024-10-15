@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block content %}
+{% with messages = get_flashed_messages() %}
+{% if messages %}
+  <ul class=flashes>
+  {% for message in messages %}
+    <li>{{ message }}</li>
+  {% endfor %}
+  </ul>
+{% endif %}
+{% endwith %}
+    <div class="input-form">
+    <form method="post">
+        <input type="text" name="cas"
+            placeholder="CAS Number"
+            value="{{ request.form['CAS Number'] }}"></input> 
+            <input type="text" name="chem_name"
+            placeholder="Chemical Name"
+            value="{{ request.form['Chemical Name'] }}"></input>   
+        <button type="submit">Submit</button>
+    </form>
+    
+{% endblock%}
