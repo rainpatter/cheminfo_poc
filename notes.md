@@ -7,4 +7,51 @@
 - QSAR model - accompany with nearest neighbour in training set - user can verify their expert judgment 
 
 - overengineering vs building out platform
-- 
+- next steps:
+- build services to explore different ways to manipulate and visualise data
+- rendering functionality -> how to handle PIL objects?
+- questions going forward:
+- how to accept chemical data? manipulate data? visualise data? 
+- accepting chemical in draw box?
+- other than SMILES strings - CAS number/IUPAC names
+- sending data to KNIME workflow - how and is this possible? 
+- visualisation? molecular clusters, fingerprints? - creates image highlighting substructures
+- hover over structure and highlight
+- similarity search - takes in SMILES and in backend calculates similarity scores - returns image - substructures
+- retain input/output - 1 nearest neighbour - experiment with visualisation 
+- explore Py3DMol as upgrade to the Ames predictor
+
+
+11.10.24
+
+- discuss libraries with ITD - JS nodes
+- exposure models as additional module - in Excel format
+    - Anna sending link
+    - macros
+    - exposure models
+- how to make it easy to input data? template for users to populate -> enhance complexity of input forms
+- ChemTunes - API for similarity search
+    - set up meeting with ChemTunes?
+- next steps
+    - scope out exposure models - no date but higher priority
+    - API investigation - which available? - ongoing
+        - list of tools for integration
+        - what documentation is available?
+        - identify unique functions
+        - which are easiest to work with/most accessible
+    - add to Planner
+    - KNIME grouping approach - API/server
+    - azos datasets
+    - cheminformatics toolkits suggested by Panos e.g. Indigo 
+    - EPT
+        - when/how would be onboarded?
+        - feeds back to data curation tools - how to automate
+    - High hazard list
+    - Map data to IUCLID - custom workflows
+    - OECD end uses - ask Marat for latest copy
+    - complex substances
+    - cloud platform - catch-up before end of October 
+        - most suitable candidate
+        - $500 max spend for quick turnaround
+        - estimate per month or year
+        - machine learning stream -  

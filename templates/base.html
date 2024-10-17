@@ -9,18 +9,22 @@
       type="text/css"
       href="{{ url_for('static',filename='styles/main.css') }}"
     />
-    <script type="text/javascript" language="javascript" src="{{url_for('static',filename='jsme/jsme.nocache.js')}}"></script>
+    <script
+      type="text/javascript"
+      language="javascript"
+      src="{{url_for('static',filename='jsme/jsme.nocache.js')}}"
+    ></script>
     <script>
-      console.log('testing');
+      console.log("testing");
       function jsmeOnLoad() {
         jsmeApplet = new JSApplet.JSME("jsme_container", "600px", "400px");
       }
 
       function getSmiles() {
-        console.log('smiles')
+        console.log("smiles");
         var data = jsmeApplet.smiles();
         document.getElementById("jme_output").value = data;
-    }
+      }
     </script>
   </head>
 
@@ -32,9 +36,7 @@
       <a href="/">All modules</a>
       <a href="/about">About</a>
     </nav>
-    <div class="content">
-      
-      {% block content %} {% endblock %}</div>
+    <div class="content">{% block content %} {% endblock %}</div>
     <footer>
       &#169; Australian Industrial Chemicals Introduction Scheme 2024
     </footer>

@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    
+  <!-- {% with messages = get_flashed_messages() %}
+    {% if messages %}
+      <ul class=flashes>
+      {% for message in messages %}
+        <li>{{ message }}</li>
+      {% endfor %}
+      </ul>
+    {% endif %}
+  {% endwith %} -->
+    <div class="input-form">
+    <form method="post">
+        <input type="text" name="substance_name"
+            placeholder="Substance name"></input>
+            <input type="text" name="cas_no"
+            placeholder="CAS number"></input>    
+            <input type="text" name="molecular_weight"
+            placeholder="Molecular weight (g/mol)"></input>
+            <input type="text" name="lt_inhalation"
+            placeholder="Long-term inhalation (mg/m3)">
+            <input type="text" name="lt_dermal"
+            placeholder="Long-term dermal (mg/kg/day)"></input>
+            <input type="text" name="st_inhalation"
+            placeholder="Short-term inhalation (mg/m3)"></input>    
+            <input type="text" name="local_dermal"
+            placeholder="Local dermal (ug/cm2)"></input>   
+        </input>  
+            
+        <button type="submit">Submit SMILES</button>
+    </form>
+    
+{% endblock%}

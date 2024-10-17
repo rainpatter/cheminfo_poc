@@ -1,6 +1,7 @@
 
 import pandas as pd
 import numpy as np
+
 df = pd.read_csv(
     '../data/ECETOC-TRAworker-version3.2-final.XLSX - TRAlookup.csv')
 
@@ -223,8 +224,6 @@ def calc_predicted_8hr_inhalatory_exposure(dict):
     return p8ie
 
 
-# =IF(OR(AG12="n/a",M12="change input"),"n/a",IF(L12="yes",AG12*Z12*AA12*AC12*VLOOKUP(AE12,TRAlookup!$A$2:$H$729,6,FALSE),AG12*Z12*AA12*AC12))
-
 def calc_predicted_8hr_dermal_exposure(dict):
     if dict['initial_estimate_dermal'] == 'n/a' or dict['predicted_8hr_inhalatory_exposure'] == 'change input':
         p8id = 'n/a'
@@ -252,7 +251,6 @@ def calc_predicted_short_term_inhalatory_exposure(dict):
     dict['predicted_short_term_inhalatory_exposure'] = round(pstie, 4)
     return pstie
 
-# =IF(OR(AG12="n/a",M12="change input"),"n/a",IF(L12="yes",AH12*Z12*AA12*AC12*VLOOKUP(AE12,TRAlookup!$A$2:$H$729,6,FALSE),AH12*Z12*AA12*AC12))
 
 def calc_predicted_local_dermal_exposure(dict):
     if dict['initial_estimate_dermal'] == 'n/a' or dict['predicted_8hr_inhalatory_exposure'] == 'change input':
@@ -260,11 +258,58 @@ def calc_predicted_local_dermal_exposure(dict):
     elif dict['lev_dermal'] == 'yes':
         match = df.loc[df['descriptor/look-up term inhalation'] ==
                        dict['concat_lookup_descriptor'], 'reduction factor LEV dermal'].iloc[0]
-        plde = dict['initial_estimate_dermal'] * dict['duration_reduction_factor_dermal'] * dict['concentration_reduction_factor'] * dict['ppe_reduction_factor'] * match
+        plde = dict['initial_estimate_dermal'] * dict['duration_reduction_factor_dermal'] * \
+            dict['concentration_reduction_factor'] * \
+            dict['ppe_reduction_factor'] * match
     else:
-        plde = dict['initial_estimate_dermal'] * dict['duration_reduction_factor_dermal'] * dict['concentration_reduction_factor'] * dict['ppe_reduction_factor']
+        plde = dict['initial_estimate_dermal'] * dict['duration_reduction_factor_dermal'] * \
+            dict['concentration_reduction_factor'] * \
+            dict['ppe_reduction_factor']
     dict['predicted_local_dermal_exposure'] = round(plde, 4)
     return plde
+
+
+def calc_predicted_rcr_long_term_inhalation(dict):
+    if dict['predicted_8hr_inhalatory_exposure'] == ('n/a' or 'change input'):
+        prlti = 'n/a'
+    else:
+        prlti = dict['predicted_8hr_inhalatory_exposure'] / \
+            dict['long_term_inhalation']
+    dict['predicted_RCR_long_term_inhalation'] = round(prlti, 4)
+    return prlti
+
+
+def calc_predicted_rcr_long_term_dermal(dict):
+    if dict['predicted_8hr_dermal_exposure'] == 'n/a':
+        prltd = 'n/a'
+    else:
+        prltd = dict['predicted_8hr_dermal_exposure']/dict['long_term_dermal']
+    dict['predicted_RCR_long_term_dermal'] = round(prltd, 4)
+    return prltd
+
+
+def calc_predicted_rcr_short_term_inhalation(dict):
+    if dict['predicted_short_term_inhalatory_exposure'] == 'n/a':
+        prsti = 'n/a'
+    else:
+        prsti = dict['predicted_short_term_inhalatory_exposure']/dict['short_term_inhalation']
+    dict['predicted_rcr_short_term_inhalation'] = round(prsti,4)
+    return prsti
+
+# =IF(P12="n/a","n/a",P12/$G$9)
+
+def calc_predicted_rcr_local_dermal(dict):
+    if dict['predicted_local_dermal_exposure'] == 'n/a':
+        prld = 'n/a'
+    else:
+        prld = dict['predicted_local_dermal_exposure']/dict['local_dermal']
+    dict['predicted_rcr_local_dermal'] = prld
+    return prld
+    
+# =IF(AND(D22="liquid",OR(AND(B22="PROC7",C22="ind"),AND(B22="PROC10",I22="no"),AND(B22="PROC11",C22="prof"),OR(B22="PROC17",B22="PROC18"),AND(B22="PROC19",I22="no"))),"Note that the TRA predicts vapour phase exposure; exposure by aerosols is not taken into account; if aerosol formation is relevant, refer to other information or models. ","")
+
+# def message_TRA_only_estimates_vapour_phase_exposure(dict):
+#     if dict['phys_state'] == 'liquid' or (dict['proc'] == 'PROC7' and dict['ind_prof'] == 'ind') or (dict['proc'] == 'PROC10' and dict['lev'] == 'or')
 
 print(calculate_ventilation_reduction_factor(example_user_inputs))
 print(calculate_duration_reduction_factor_inhalation(example_user_inputs))
@@ -281,4 +326,8 @@ print(calc_predicted_8hr_inhalatory_exposure(example_user_inputs))
 print(calc_predicted_8hr_dermal_exposure(example_user_inputs))
 print(calc_predicted_short_term_inhalatory_exposure(example_user_inputs))
 print(calc_predicted_local_dermal_exposure(example_user_inputs))
+print(calc_predicted_rcr_long_term_inhalation(example_user_inputs))
+print(calc_predicted_rcr_long_term_dermal(example_user_inputs))
+print(calc_predicted_rcr_short_term_inhalation(example_user_inputs))
+print(calc_predicted_rcr_local_dermal(example_user_inputs))
 print(example_user_inputs)

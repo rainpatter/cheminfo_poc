@@ -13,6 +13,7 @@ all_results = []
 all_images = []
 hh_dict_result = []
 
+
 @app.route("/")
 def home():
     return render_template('index.html')
@@ -64,9 +65,11 @@ def hh_chemicals():
     chem_dict = csv_to_dict('./data/high_hazard_chemicals.csv')
     return render_template('high_hazard.html', results=chem_dict)
 
+
 @app.route('/high_hazard_chemical_result')
 def hh_result():
     return render_template('hh_result.html', results=hh_dict_result)
+
 
 @app.route('/high_hazard_search', methods=('GET', 'POST'))
 def hh_search():
@@ -75,17 +78,23 @@ def hh_search():
         cas = request.form['cas']
         chem_name = request.form['chem_name']
         if cas or chem_name:
-            retrieved_dict = [dict for dict in chem_dict if dict['CAS RN'] == cas.strip() or dict['Chemical name'].upper() == chem_name.upper().strip()]
+            retrieved_dict = [dict for dict in chem_dict if dict['CAS RN'] == cas.strip(
+            ) or dict['Chemical name'].upper() == chem_name.upper().strip()]
             if retrieved_dict:
                 global hh_dict_result
                 hh_dict_result = retrieved_dict
                 return redirect(url_for('hh_result', results=hh_dict_result))
             else:
-               flash('Search term not found')
-        else: 
+                flash('Search term not found')
+        else:
             flash('A CAS number or chemical name is required')
     return render_template('hh_form.html')
-        
+
+
+@app.route('/exposure_calculator', methods=('GET', 'POST'))
+def exposure_calc():
+    return render_template('exposure_form.html')
+
 
 if __name__ == "__main__":
     app.run()
