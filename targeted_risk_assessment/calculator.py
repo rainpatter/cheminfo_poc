@@ -1,28 +1,11 @@
 
 import pandas as pd
+import numpy as np
+df = pd.read_csv(
+    '../data/ECETOC-TRAworker-version3.2-final.XLSX - TRAlookup.csv')
 
-df = pd.read_csv('../data/ECETOC-TRAworker-version3.2-final.XLSX - TRAlookup.csv')
+np.set_printoptions(legacy='1.25')
 
-# # define parameters
-
-# substance_name = 'ethanol'
-# cas_number = '64-17-5'
-# #g/mol
-# mol_weight = 46.069
-
-# #DNEL OR OEL
-# # mg/m3
-# long_term_inhalation = 950
-# # mg/kg bw/day
-# long_term_dermal = 206
-
-# #mg/m3
-# short_term_inhalation = 1900
-
-# # ug/cm2
-# local_dermal = 100000
-
-# vap_pressure_at_operating_temp = 7832.4225
 
 example_user_inputs = {
     'substance_name': 'ethanol',
@@ -35,7 +18,7 @@ example_user_inputs = {
     'vap_pressure_at_operating_temp': 7832.4225,
     'proc': 'PROC7',
     'ind_prof': 'ind',
-    'phys_state': 'liquid',
+    'phys_state': 'solid',
     'fugacity': 'low',
     'ventilation': 'indoors - good ventilation',
     'duration': '15min-1hr',
@@ -68,6 +51,7 @@ def calculate_ventilation_reduction_factor(dict):
         vrf = 0.3
     else:
         vrf = 1
+    dict['ventilation_reduction_factor'] = vrf
     return vrf
 
 
@@ -81,20 +65,21 @@ def calculate_duration_reduction_factor_inhalation(dict):
         drfi = 0.6
     else:
         drfi = 1
+    dict['duration_reduction_factor_inhalation'] = drfi
     return drfi
 
-# =IF(AND(D12="solid",OR(W12="medium",W12="high")),1,IF(AND(D12="liquid",OR(W12="very low",W12="low")),1,Y12))
 
-
-def calculate_duration_reduction_factor_dermal(dict, calc_vrf):
+def calculate_duration_reduction_factor_dermal(dict):
     phys = dict['phys_state']
     fug = dict['fugacity']
+    vrf = dict['ventilation_reduction_factor']
     if (phys == 'solid') and (fug == 'medium' or 'high'):
         drfd = 1
     elif (phys == 'liquid') and (fug == 'very low' or 'low'):
         drfd = 1
     else:
-        drfd = calc_vrf
+        drfd = vrf
+    dict['duration_reduction_factor_dermal'] = drfd
     return drfd
 
 
@@ -108,6 +93,7 @@ def calculate_concentration_reduction_factor(dict):
         crf = 0.2
     else:
         crf = 1
+    dict['concentration_reduction_factor'] = crf
     return crf
 
 
@@ -119,9 +105,8 @@ def calculate_rpe_reduction_factor(dict):
         rrf = 0.05
     else:
         rrf = 1
+    dict['rpe_reduction_factor'] = rrf
     return rrf
-
-# =IF(K12="PPE80%",0.2, IF(K12="PPE90%",0.1, IF(AND(C12="prof",K12="PPE95%"),0.1, IF(K12="PPE95%",0.05,1))))
 
 
 def calculate_ppe_reduction_factor(dict):
@@ -137,9 +122,8 @@ def calculate_ppe_reduction_factor(dict):
         prf = 0.05
     else:
         prf = 1
+    dict['ppe_reduction_factor'] = prf
     return prf
-
-# IF(AND(AND(D12="liquid",W12="very low"),NOT(OR(B12="PROC7",B12="PROC11",B12="PROC17",B12="PROC18",AND(B12="PROC10",I12="no"),AND(B12="PROC19",I12="no")))),1,4)
 
 
 def calcule_multiplier_short_term(dict):
@@ -151,7 +135,9 @@ def calcule_multiplier_short_term(dict):
         mst = 1
     else:
         mst = 4
+    dict['multiplier_short_term'] = mst
     return mst
+
 
 def generate_lookup_descriptor(dict):
     proc = dict['proc']
@@ -159,19 +145,140 @@ def generate_lookup_descriptor(dict):
     lev = dict['lev']
     fug = dict['fugacity']
     ip = dict['ind_prof']
-    string = proc+phys+lev+fug+ip
-    return string
+    concat_string = proc+phys+lev+fug+ip
+    dict['concat_lookup_descriptor'] = concat_string
+    return concat_string
 
-print(calc_fugacity_band(example_user_inputs))
+
+def calculate_initial_estimate_inhalation(dict):
+    phys = dict['phys_state']
+    fug = dict['fugacity']
+    concat_string = dict['concat_lookup_descriptor']
+    if phys == 'solid' and fug == 'very low':
+        iei = 'n/a'
+    elif phys == 'solid':
+        try:
+            iei = df.loc[df['descriptor/look-up term inhalation']
+                         == concat_string, 'init exp inhalation'].iloc[0]
+        except:
+            # verify this
+            iei = 'n/a'
+    else:
+        iei = 'n/a'
+    dict['initial_estimate_inhalation'] = iei
+    return iei
+
+
+def calculate_initial_estimate_dermal(dict):
+    phys = dict['phys_state']
+    fug = dict['fugacity']
+    concat_string = dict['concat_lookup_descriptor']
+    if phys == 'solid' and fug == 'very low':
+        ied = 'n/a'
+    else:
+        try:
+            ied = df.loc[df['descriptor/look-up term inhalation']
+                         == concat_string, 'init exp dermal'].iloc[0]
+        except:
+            # verify this
+            ied = 'n/a'
+    dict['initial_estimate_dermal'] = ied
+    return ied
+
+
+def calculate_initial_estimate_dermal_local(dict):
+    phys = dict['phys_state']
+    fug = dict['fugacity']
+    concat_string = dict['concat_lookup_descriptor']
+    if phys == 'solid' and fug == 'very low':
+        iedd = 'n/a'
+    else:
+        try:
+            iedd = df.loc[df['descriptor/look-up term inhalation']
+                          == concat_string, 'init exp local dermal'].iloc[0]
+        except:
+            # verify this
+            iedd = 'n/a'
+    dict['initial_estimate_dermal_local'] = iedd
+    return iedd
+
+
+def calc_predicted_8hr_inhalatory_exposure(dict):
+    iei = dict['initial_estimate_inhalation']
+    if iei == 'n/a':
+        p8ie = 'change input'
+    elif dict['ventilation'] == 'outdoors' and dict['lev'] == 'yes':
+        p8ie = 'change input'
+    elif dict['ind_prof'] == 'prof' and dict['ventilation'] == 'indoors - enhanced ventilation' and dict['lev'] == 'yes':
+        p8ie = 'change input'
+    else:
+        match = df.loc[df['descriptor/look-up term inhalation'] ==
+                       dict['concat_lookup_descriptor'], 'reduction factor lev inhal'].iloc[0]
+        print(match)
+        p8ie = dict['initial_estimate_inhalation']*dict['ventilation_reduction_factor'] * \
+            dict['duration_reduction_factor_inhalation'] * \
+            dict['concentration_reduction_factor'] * \
+            dict['rpe_reduction_factor']*match
+    dict['predicted_8hr_inhalatory_exposure'] = round(p8ie, 4)
+    return p8ie
+
+
+# =IF(OR(AG12="n/a",M12="change input"),"n/a",IF(L12="yes",AG12*Z12*AA12*AC12*VLOOKUP(AE12,TRAlookup!$A$2:$H$729,6,FALSE),AG12*Z12*AA12*AC12))
+
+def calc_predicted_8hr_dermal_exposure(dict):
+    if dict['initial_estimate_dermal'] == 'n/a' or dict['predicted_8hr_inhalatory_exposure'] == 'change input':
+        p8id = 'n/a'
+    elif dict['lev_dermal'] == 'yes':
+        match = df.loc[df['descriptor/look-up term inhalation'] ==
+                       dict['concat_lookup_descriptor'], 'reduction factor LEV dermal'].iloc[0]
+        p8id = dict['initial_estimate_dermal'] * dict['duration_reduction_factor_dermal'] * \
+            dict['concentration_reduction_factor'] * \
+            dict['ppe_reduction_factor'] * match
+    else:
+        p8id = p8id = dict['initial_estimate_dermal'] * dict['duration_reduction_factor_dermal'] * \
+            dict['concentration_reduction_factor'] * \
+            dict['ppe_reduction_factor']
+    dict['predicted_8hr_dermal_exposure'] = round(p8id, 4)
+    return p8id
+
+
+def calc_predicted_short_term_inhalatory_exposure(dict):
+    if dict['predicted_8hr_inhalatory_exposure'] == ('n/a' or 'change input'):
+        pstie = 'n/a'
+    else:
+        pstie = dict['predicted_8hr_inhalatory_exposure'] * \
+            dict['multiplier_short_term'] / \
+            dict['duration_reduction_factor_inhalation']
+    dict['predicted_short_term_inhalatory_exposure'] = round(pstie, 4)
+    return pstie
+
+# =IF(OR(AG12="n/a",M12="change input"),"n/a",IF(L12="yes",AH12*Z12*AA12*AC12*VLOOKUP(AE12,TRAlookup!$A$2:$H$729,6,FALSE),AH12*Z12*AA12*AC12))
+
+def calc_predicted_local_dermal_exposure(dict):
+    if dict['initial_estimate_dermal'] == 'n/a' or dict['predicted_8hr_inhalatory_exposure'] == 'change input':
+        plde = 'n/a'
+    elif dict['lev_dermal'] == 'yes':
+        match = df.loc[df['descriptor/look-up term inhalation'] ==
+                       dict['concat_lookup_descriptor'], 'reduction factor LEV dermal'].iloc[0]
+        plde = dict['initial_estimate_dermal'] * dict['duration_reduction_factor_dermal'] * dict['concentration_reduction_factor'] * dict['ppe_reduction_factor'] * match
+    else:
+        plde = dict['initial_estimate_dermal'] * dict['duration_reduction_factor_dermal'] * dict['concentration_reduction_factor'] * dict['ppe_reduction_factor']
+    dict['predicted_local_dermal_exposure'] = round(plde, 4)
+    return plde
+
 print(calculate_ventilation_reduction_factor(example_user_inputs))
-vrf = calculate_duration_reduction_factor_inhalation(example_user_inputs)
-print(vrf)
-print(calculate_duration_reduction_factor_dermal(example_user_inputs, vrf))
+print(calculate_duration_reduction_factor_inhalation(example_user_inputs))
+print(calculate_duration_reduction_factor_dermal(example_user_inputs))
 print(calculate_concentration_reduction_factor(example_user_inputs))
 print(calculate_rpe_reduction_factor(example_user_inputs))
 print(calculate_ppe_reduction_factor(example_user_inputs))
 print(calcule_multiplier_short_term(example_user_inputs))
 print(generate_lookup_descriptor(example_user_inputs))
-
-print(df)
-print(df.columns.values)
+print(calculate_initial_estimate_inhalation(example_user_inputs))
+print(calculate_initial_estimate_dermal(example_user_inputs))
+print(calculate_initial_estimate_dermal_local(example_user_inputs))
+print(calc_predicted_8hr_inhalatory_exposure(example_user_inputs))
+print(calc_predicted_8hr_dermal_exposure(example_user_inputs))
+print(calc_predicted_short_term_inhalatory_exposure(example_user_inputs))
+print(calc_predicted_local_dermal_exposure(example_user_inputs))
+print(example_user_inputs)
