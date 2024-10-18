@@ -13,6 +13,7 @@
   {% endwith %} -->
     <div class="input-form">
     <form method="post">
+        <p>Chemical identity</p>
         <input type="text" name="substance_name"
             placeholder="Substance name"></input>
             <input type="text" name="cas_no"
@@ -27,9 +28,121 @@
             placeholder="Short-term inhalation (mg/m3)"></input>    
             <input type="text" name="local_dermal"
             placeholder="Local dermal (ug/cm2)"></input>   
-        </input>  
-            
-        <button type="submit">Submit SMILES</button>
+       
+            <p>Operating conditions</p>
+            <div class="custom-select">
+            <select name="proc">
+              <option>PROC category</option>
+              <option name="proc" value="PROC1">PROC1</option>
+              <option name="proc" value="PROC2">PROC2</option>
+              <option name="proc" value="PROC3">PROC3</option>
+              <option name="proc" value="PROC4">PROC4</option>
+              <option name="proc" value="PROC5">PROC5</option>
+              <option name="proc" value="PROC6">PROC6</option>
+              <option name="proc" value="PROC7">PROC7</option>
+              <option name="proc" value="PROC8a">PROC8a</option>
+              <option name="proc" value="PROC8b">PROC8b</option>
+              <option name="proc" value="PROC9">PROC9</option>
+              <option name="proc" value="PROC10">PROC10</option>
+              <option name="proc" value="PROC11">PROC11</option>
+              <option name="proc" value="PROC12">PROC12</option>
+              <option name="proc" value="PROC13">PROC13</option>
+              <option name="proc" value="PROC14">PROC14</option>
+              <option name="proc" value="PROC15">PROC15</option>
+              <option name="proc" value="PROC16">PROC16</option>
+              <option name="proc" value="PROC17">PROC17</option>
+              <option name="proc" value="PROC18">PROC18</option>
+              <option name="proc" value="PROC19">PROC19</option>
+              <option name="proc" value="PROC20">PROC20</option>
+              <option name="proc" value="PROC21">PROC21</option>
+              <option name="proc" value="PROC22">PROC22</option>
+              <option name="proc" value="PROC23">PROC23</option>
+              <option name="proc" value="PROC24">PROC24</option>
+              <option name="proc" value="PROC25">PROC25</option>
+            </select> 
+          </div>
+          <div class="custom-select">
+            <select name="ind_prof">
+              <option value>Industrial or professional</option>
+              <option value="ind">ind</option>
+              <option value="prof">prof</option>
+            </select> 
+          </div>
+          <div class="custom-select">
+            <select name="phys_state">
+              <option>Physical state</option>
+              <option value="liquid">liquid</option>
+              <option value="solid">solid</option>
+            </select> 
+            </div>
+            <div class="custom-select">
+            <select name="fugacity">
+              <option>Fugacity</option>
+              <option value="very low">very low</option>
+              <option value="low">low</option>
+              <option value="medium">medium</option>
+              <option value="high">high</option>
+            </select> 
+            </div>
+            <div class="custom-select">
+            <select name="ventilation">
+              <option>Ventilation</option>
+              <option value="outdoors">outdoors</option>
+              <option value="indoors - no or basic ventilation">indoors - no or basic ventilation</option>
+              <option value="indoors - good ventilation">indoors - good ventilation</option>
+              <option value="indoors - enhanced ventilation">indoors - enhanced ventilation</option>
+            </select> 
+            </div>
+            <div class="custom-select">
+            <select name="duration">
+              <option>Duration</option>
+              <option value="<15min">&lt; 15 min</option>
+              <option value="15min-1hr">15 min - 1 hr</option>
+              <option value="1-4hr">1 - 4 hr</option>
+              <option value=">4hr">&gt; 4 hr</option>
+            </select> 
+            </div>
+            <div class="custom-select">
+            <select name="concentration">
+              <option>Concentration</option>
+              <option value="<1%>">&lt; 1%</option>
+              <option value="1-5%">1 - 5%</option>
+              <option value="5-25%">5 - 25%</option>
+              <option value=">25%">&gt; 25%</option>
+            </select> 
+            </div>
+            <div class="custom-select">
+            <select name="lev">
+              <option>LEV</option>
+              <option value="yes">yes</option>
+              <option value="no">no</option>
+            </select> 
+            </div>
+            <div class="custom-select">
+            <select name="rpe_mask">
+              <option>RPE Mask</option>
+              <option value="no RPE">no RPE</option>
+              <option value="RPE90%">RPE90%</option>
+              <option value="RPE95%">RPE95%</option>
+            </select> 
+            </div>
+            <div class="custom-select">
+            <select name="ppe_gloves">
+              <option>PPE gloves</option>
+              <option value="no PPE">no PPE</option>
+              <option value="PPE80%">PPE80%</option>
+              <option value="PPE90%">PPE90%</option>
+              <option value="PPE95%">PPE95%</option>
+            </select> 
+          </div>
+          <div class="custom-select">
+            <select name="lev_dermal">
+              <option>LEV for dermal</option>
+              <option value="yes">yes</option>
+              <option value="no">no</option>
+            </select> 
+          </div>
+        <button type="submit">Calculate exposure</button>
     </form>
     
 {% endblock%}
