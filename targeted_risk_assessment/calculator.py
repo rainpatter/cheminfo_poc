@@ -222,7 +222,7 @@ def calc_predicted_8hr_inhalatory_exposure(dict):
             dict['duration_reduction_factor_inhalation'] * \
             dict['concentration_reduction_factor'] * \
             dict['rpe_reduction_factor']*match
-    
+
     dict['predicted_8hr_inhalatory_exposure'] = round(p8ie, 4)
     return p8ie
 
@@ -306,7 +306,7 @@ def calc_predicted_rcr_local_dermal(dict):
         prld = 'n/a'
     else:
         prld = dict['predicted_local_dermal_exposure']/dict['local_dermal']
-    dict['predicted_rcr_local_dermal'] = prld
+    dict['predicted_rcr_local_dermal'] = round(prld, 4)
     return prld
 
 

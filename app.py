@@ -16,7 +16,7 @@ np.set_printoptions(legacy='1.25')
 all_results = []
 all_images = []
 hh_dict_result = []
-
+calc_dict = {}
 
 @app.route("/")
 def home():
@@ -97,63 +97,44 @@ def hh_search():
 
 @app.route('/exposure_calculator', methods=('GET', 'POST'))
 def exposure_calc():
-    #     example_user_inputs = {
-    #     'substance_name': 'ethanol',
-    #     'cas_number': '64-17-5',
-    #     'mol_weight': 46.069,
-    #     'long_term_inhalation': 950,
-    #     'long_term_dermal': 206,
-    #     'short_term_inhalation': 1900,
-    #     'local_dermal': 10000,
-    #     'vap_pressure_at_operating_temp': 7832.4225,
-    #     'proc': 'PROC7',
-    #     'ind_prof': 'ind',
-    #     'phys_state': 'solid',
-    #     'fugacity': 'low',
-    #     'ventilation': 'indoors - good ventilation',
-    #     'duration': '15min-1hr',
-    #     'concentration': '>25%',
-    #     'lev': 'no',
-    #     'rpe_mask': 'no RPE',
-    #     'ppe_gloves': 'PPE95%',
-    #     'lev_dermal': 'yes'
-    # }
-
     if request.method == "POST":
-        dict = {
-            'substance_name': request.form['substance_name'],
-            'cas_number': request.form['cas_no'],
-            'mol_weight': float(request.form['molecular_weight']),
-            'long_term_inhalation': float(request.form['lt_inhalation']),
-            'long_term_dermal': float(request.form['lt_dermal']),
-            'short_term_inhalation': float(request.form['st_inhalation']),
-            'local_dermal': float(request.form['local_dermal']),
-            'proc': request.form['proc'],
-            'ind_prof': request.form['ind_prof'],
-            'phys_state': request.form['phys_state'],
-            'fugacity': request.form['fugacity'],
-            'ventilation': request.form['ventilation'],
-            'duration': request.form['duration'],
-            'concentration': request.form['concentration'],
-            'lev': request.form['lev'],
-            'rpe_mask': request.form['rpe_mask'],
-            'ppe_gloves': request.form['ppe_gloves'],
-            'lev_dermal': request.form['lev_dermal'],
-        }
-        calc_dict = calculate_all(dict)
-        print(calc_dict)
+        dict = request.form.to_dict()
+        if any(x == '' for x in list(dict.values())):
+            flash('Inputs are incomplete - please complete all entries')
+        else:
+            try:
+                dict = {
+                    'substance_name': request.form['substance_name'],
+                    'cas_number': request.form['cas_no'],
+                    'mol_weight': float(request.form['molecular_weight']),
+                    'long_term_inhalation': float(request.form['lt_inhalation']),
+                    'long_term_dermal': float(request.form['lt_dermal']),
+                    'short_term_inhalation': float(request.form['st_inhalation']),
+                    'local_dermal': float(request.form['local_dermal']),
+                    'proc': request.form['proc'],
+                    'ind_prof': request.form['ind_prof'],
+                    'phys_state': request.form['phys_state'],
+                    'fugacity': request.form['fugacity'],
+                    'ventilation': request.form['ventilation'],
+                    'duration': request.form['duration'],
+                    'concentration': request.form['concentration'],
+                    'lev': request.form['lev'],
+                    'rpe_mask': request.form['rpe_mask'],
+                    'ppe_gloves': request.form['ppe_gloves'],
+                    'lev_dermal': request.form['lev_dermal'],
+                }
+                global calc_dict
+                calc_dict = calculate_all(dict)
+                print(calc_dict)
+                return redirect(url_for('exposure_result', dict=calc_dict))
+            except:
+                flash('Inputs require changing for calculation')
     return render_template('exposure_form.html')
 
+@app.route('/exposure_result')
+def exposure_result():
+    return render_template('exposure_result.html', dict=calc_dict)
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0', port=5000, debug=True)
 
-# @app.route("/ames")
-# def ames_data():
-#     return render_template('ames_index.html', json=[data_functions.df_json], tables=[data_functions.df_html], titles=data_functions.col_vals)
-
-# @app.route("/ames/<chem_id>")
-# def show_ames_data(chem_id):
-#     print(type(chem_id))
-#     chem_dict = data_functions.match_on_id(data_functions.df_json, chem_id)
-#     return render_template('ames_show.html', id=chem_id, dict=chem_dict)

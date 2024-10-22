@@ -2,7 +2,7 @@
 
 {% block content %}
     
-  <!-- {% with messages = get_flashed_messages() %}
+   {% with messages = get_flashed_messages() %}
     {% if messages %}
       <ul class=flashes>
       {% for message in messages %}
@@ -10,10 +10,12 @@
       {% endfor %}
       </ul>
     {% endif %}
-  {% endwith %} -->
+  {% endwith %} 
+
     <div class="input-form">
     <form method="post">
         <p>Chemical identity</p>
+        <label for=""> Substance name</label>
         <input type="text" name="substance_name"
             placeholder="Substance name"></input>
             <input type="text" name="cas_no"
@@ -32,7 +34,7 @@
             <p>Operating conditions</p>
             <div class="custom-select">
             <select name="proc">
-              <option>PROC category</option>
+              <option value>PROC category</option>
               <option name="proc" value="PROC1">PROC1</option>
               <option name="proc" value="PROC2">PROC2</option>
               <option name="proc" value="PROC3">PROC3</option>
@@ -70,14 +72,14 @@
           </div>
           <div class="custom-select">
             <select name="phys_state">
-              <option>Physical state</option>
+              <option value>Physical state</option>
               <option value="liquid">liquid</option>
               <option value="solid">solid</option>
             </select> 
             </div>
             <div class="custom-select">
             <select name="fugacity">
-              <option>Fugacity</option>
+              <option value>Fugacity</option>
               <option value="very low">very low</option>
               <option value="low">low</option>
               <option value="medium">medium</option>
@@ -86,7 +88,7 @@
             </div>
             <div class="custom-select">
             <select name="ventilation">
-              <option>Ventilation</option>
+              <option value>Ventilation</option>
               <option value="outdoors">outdoors</option>
               <option value="indoors - no or basic ventilation">indoors - no or basic ventilation</option>
               <option value="indoors - good ventilation">indoors - good ventilation</option>
@@ -95,7 +97,7 @@
             </div>
             <div class="custom-select">
             <select name="duration">
-              <option>Duration</option>
+              <option value>Duration</option>
               <option value="<15min">&lt; 15 min</option>
               <option value="15min-1hr">15 min - 1 hr</option>
               <option value="1-4hr">1 - 4 hr</option>
@@ -104,7 +106,7 @@
             </div>
             <div class="custom-select">
             <select name="concentration">
-              <option>Concentration</option>
+              <option value>Concentration</option>
               <option value="<1%>">&lt; 1%</option>
               <option value="1-5%">1 - 5%</option>
               <option value="5-25%">5 - 25%</option>
@@ -113,14 +115,14 @@
             </div>
             <div class="custom-select">
             <select name="lev">
-              <option>LEV</option>
+              <option value>LEV</option>
               <option value="yes">yes</option>
               <option value="no">no</option>
             </select> 
             </div>
             <div class="custom-select">
             <select name="rpe_mask">
-              <option>RPE Mask</option>
+              <option value>RPE Mask</option>
               <option value="no RPE">no RPE</option>
               <option value="RPE90%">RPE90%</option>
               <option value="RPE95%">RPE95%</option>
@@ -128,7 +130,7 @@
             </div>
             <div class="custom-select">
             <select name="ppe_gloves">
-              <option>PPE gloves</option>
+              <option value>PPE gloves</option>
               <option value="no PPE">no PPE</option>
               <option value="PPE80%">PPE80%</option>
               <option value="PPE90%">PPE90%</option>
@@ -137,7 +139,7 @@
           </div>
           <div class="custom-select">
             <select name="lev_dermal">
-              <option>LEV for dermal</option>
+              <option value>LEV for dermal</option>
               <option value="yes">yes</option>
               <option value="no">no</option>
             </select> 
