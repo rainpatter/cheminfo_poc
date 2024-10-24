@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
 
 {% block content %}
+  <div class="module-form">
     {% if list|length > 0 %}
     <div class="options">
         <a href="/all_ames">Previous searches</a>
@@ -25,5 +26,6 @@
     </form>
     <div id="jsme_container"></div>
       <button type="button" onclick='getSmiles();'>Get SMILES from drawn structure</button>
-</div>
+    </div>
+  </div>
 {% endblock%}
