@@ -137,11 +137,11 @@ def calculate_initial_estimate_inhalation(dict):
     if phys == 'solid' and fug == 'very low':
         iei = 'n/a'
     result = df.loc[df['descriptor/look-up term inhalation']
-                         == concat_string, 'init exp inhalation']
+                    == concat_string, 'init exp inhalation']
     if phys == 'solid':
         iei = result.values[0] if not result.empty else 'n/a'
     if not result.empty:
-        try: 
+        try:
             iei = (result.values[0]*mw)/24
         except:
             iei = 'n/a'
@@ -157,7 +157,7 @@ def calculate_initial_estimate_dermal(dict):
         ied = 'n/a'
     else:
         result = df.loc[df['descriptor/look-up term inhalation']
-                         == concat_string, 'init exp dermal']
+                        == concat_string, 'init exp dermal']
         ied = result.values[0] if not result.empty else 'n/a'
     dict['initial_estimate_dermal'] = ied
     return ied
@@ -171,7 +171,7 @@ def calculate_initial_estimate_dermal_local(dict):
         iedl = 'n/a'
     else:
         result = df.loc[df['descriptor/look-up term inhalation']
-                          == concat_string, 'init exp local dermal']
+                        == concat_string, 'init exp local dermal']
         iedl = result.values[0] if not result.empty else 'n/a'
     dict['initial_estimate_dermal_local'] = iedl
     return iedl
@@ -187,12 +187,14 @@ def calc_predicted_8hr_inhalatory_exposure(dict):
         p8ie = 'change input'
     else:
         result = df.loc[df['descriptor/look-up term inhalation'] ==
-                       dict['concat_lookup_descriptor'], 'reduction factor lev inhal']
+                        dict['concat_lookup_descriptor'], 'reduction factor lev inhal']
         p8ie = dict['initial_estimate_inhalation']*dict['ventilation_reduction_factor'] * \
             dict['duration_reduction_factor_inhalation'] * \
             dict['concentration_reduction_factor'] * \
-            dict['rpe_reduction_factor']*result.values[0] if not result.empty else 'change input'
-    dict['predicted_8hr_inhalatory_exposure'] = p8ie
+            dict['rpe_reduction_factor'] * \
+            result.values[0] if not result.empty else 'change input'
+    dict['predicted_8hr_inhalatory_exposure'] = round(
+        p8ie, 2) if type(p8ie) == float else p8ie
     return p8ie
 
 
@@ -201,15 +203,17 @@ def calc_predicted_8hr_dermal_exposure(dict):
         p8id = 'n/a'
     elif dict['lev_dermal'] == 'yes':
         result = df.loc[df['descriptor/look-up term inhalation'] ==
-                       dict['concat_lookup_descriptor'], 'reduction factor LEV dermal']
+                        dict['concat_lookup_descriptor'], 'reduction factor LEV dermal']
         p8id = dict['initial_estimate_dermal'] * dict['duration_reduction_factor_dermal'] * \
             dict['concentration_reduction_factor'] * \
-            dict['ppe_reduction_factor'] * result.values[0] if not result.empty else 'n/A'
+            dict['ppe_reduction_factor'] * \
+            result.values[0] if not result.empty else 'n/A'
     else:
         p8id = dict['initial_estimate_dermal'] * dict['duration_reduction_factor_dermal'] * \
             dict['concentration_reduction_factor'] * \
             dict['ppe_reduction_factor']
-    dict['predicted_8hr_dermal_exposure'] = p8id
+    dict['predicted_8hr_dermal_exposure'] = round(
+        p8id, 2) if type(p8id) == float else p8id
     return p8id
 
 
@@ -220,7 +224,8 @@ def calc_predicted_short_term_inhalatory_exposure(dict):
         pstie = dict['predicted_8hr_inhalatory_exposure'] * \
             dict['multiplier_short_term'] / \
             dict['duration_reduction_factor_inhalation']
-    dict['predicted_short_term_inhalatory_exposure'] = pstie
+    dict['predicted_short_term_inhalatory_exposure'] = round(
+        pstie, 2) if type(pstie) == float else pstie
     return pstie
 
 
@@ -229,15 +234,17 @@ def calc_predicted_local_dermal_exposure(dict):
         plde = 'n/a'
     elif dict['lev_dermal'] == 'yes':
         result = df.loc[df['descriptor/look-up term inhalation'] ==
-                       dict['concat_lookup_descriptor'], 'reduction factor LEV dermal']
-        plde = dict['initial_estimate_dermal'] * dict['duration_reduction_factor_dermal'] * \
+                        dict['concat_lookup_descriptor'], 'reduction factor LEV dermal']
+        plde = dict['initial_estimate_dermal_local'] * dict['duration_reduction_factor_dermal'] * \
             dict['concentration_reduction_factor'] * \
-            dict['ppe_reduction_factor'] * result.values[0] if not result.empty else 'n/a'
+            dict['ppe_reduction_factor'] * \
+            result.values[0] if not result.empty else 'n/a'
     else:
-        plde = dict['initial_estimate_dermal'] * dict['duration_reduction_factor_dermal'] * \
+        plde = dict['initial_estimate_dermal_local'] * dict['duration_reduction_factor_dermal'] * \
             dict['concentration_reduction_factor'] * \
             dict['ppe_reduction_factor']
-    dict['predicted_local_dermal_exposure'] = plde
+    dict['predicted_local_dermal_exposure'] = round(
+        plde, 2) if type(plde) == float else plde
     return plde
 
 
@@ -247,7 +254,8 @@ def calc_predicted_rcr_long_term_inhalation(dict):
     else:
         prlti = 'n/a' if dict['long_term_inhalation'] == 0 else dict['predicted_8hr_inhalatory_exposure'] / \
             dict['long_term_inhalation']
-    dict['predicted_RCR_long_term_inhalation'] = prlti
+    dict['predicted_RCR_long_term_inhalation'] = round(
+        prlti, 2) if type(prlti) == float else prlti
     return prlti
 
 
@@ -257,7 +265,8 @@ def calc_predicted_rcr_long_term_dermal(dict):
     else:
         prltd = 'n/a' if dict['long_term_dermal'] == 0 else dict['predicted_8hr_dermal_exposure'] / \
             dict['long_term_dermal']
-    dict['predicted_RCR_long_term_dermal'] = prltd
+    dict['predicted_RCR_long_term_dermal'] = round(
+        prltd, 2) if type(prltd) == float else prltd
     return prltd
 
 
@@ -267,7 +276,8 @@ def calc_predicted_rcr_short_term_inhalation(dict):
     else:
         prsti = 'n/a' if dict['short_term_inhalation'] == 0 else dict['predicted_short_term_inhalatory_exposure'] / \
             dict['short_term_inhalation']
-    dict['predicted_rcr_short_term_inhalation'] = prsti
+    dict['predicted_rcr_short_term_inhalation'] = round(
+        prsti, 2) if type(prsti) == float else prsti
     return prsti
 
 
@@ -278,7 +288,8 @@ def calc_predicted_rcr_local_dermal(dict):
         prld = 'n/a' if dict['local_dermal'] == 0 else dict['predicted_local_dermal_exposure'] / \
             dict['local_dermal']
 
-    dict['predicted_rcr_local_dermal'] = prld
+    dict['predicted_rcr_local_dermal'] = round(
+        prld, 2) if type(prld) == float else prld
     return prld
 
 
