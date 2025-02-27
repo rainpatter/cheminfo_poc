@@ -127,7 +127,8 @@ def exposure_calc():
                 calc_dict = calculate_all(dict)
                 print(calc_dict)
                 return redirect(url_for('exposure_result', dict=calc_dict))
-            except:
+            except Exception as e:
+                print(e)
                 flash('Inputs require changing for calculation')
     return render_template('exposure_form.html')
 

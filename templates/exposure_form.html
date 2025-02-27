@@ -14,6 +14,7 @@
 
       <div class="input-form">
       <form method="post">
+          <p>ECETOC TRA Work Version 3.2</p>
           <p>Chemical identity</p>
        
           <input type="text" name="substance_name"
@@ -23,13 +24,13 @@
               <input type="text" name="molecular_weight"
               placeholder="Molecular weight (g/mol)"></input>
               <input type="text" name="lt_inhalation"
-              placeholder="Long-term inhalation (mg/m3)">
+              placeholder="Reference value (DNEL or OEL): Long-term inhalation (mg/m3)">
               <input type="text" name="lt_dermal"
-              placeholder="Long-term dermal (mg/kg/day)"></input>
+              placeholder="Reference value (DNEL or OEL): Long-term dermal (mg/kg/day)"></input>
               <input type="text" name="st_inhalation"
-              placeholder="Short-term inhalation (mg/m3)"></input>    
+              placeholder="Reference value (DNEL or OEL): Short-term inhalation (mg/m3)"></input>    
               <input type="text" name="local_dermal"
-              placeholder="Local dermal (ug/cm2)"></input>   
+              placeholder="Reference value (DNEL or OEL): Local dermal (ug/cm2)"></input>   
         
               <p>Operating conditions</p>
               <div class="custom-select">
@@ -144,6 +145,7 @@
                 <option value="no">no</option>
               </select> 
             </div>
+            <br>
           <button type="submit">Calculate exposure</button>
       </form>
     </div>
