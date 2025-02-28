@@ -1,13 +1,94 @@
 
 import pandas as pd
 import numpy as np
+import pprint
 
-file = 'data/ECETOC-TRAworker-version3.2-final.XLSX - TRAlookup.csv'
+# input file from ECETOC to calculate lookup values
+
+file = 'ECETOC-TRAworker-version3.2-final.XLSX - TRAlookup.csv'
 
 df = pd.read_csv(
     file)
 
 np.set_printoptions(legacy='1.25')
+
+# ------------------------------------------------------------------- #
+
+# CHANGE DICTIONARY VALUES HERE
+# - dictionary below called 'example_user_inputs' is for calculation - constraints are detailed below in comments
+# - if there is a list of options, please copy-paste the text string exactly as it is shown into the dictionary
+# - once you have changed the values in the dictionary, please run the program
+
+example_user_inputs = {
+    # any substance name
+    'substance_name': 'ethanol',
+    # any cas number
+    'cas_number': '64-17-5',
+    # any decimal - g/mol
+    'mol_weight': 46.069,
+    # any decimal - DNEL or OEL (mg/m3)
+    'long_term_inhalation': 10,
+    # any decimal - DNEL or OEL (mg/kg/day)
+    'long_term_dermal': 10,
+    # any decimal - DNEL or OEL (mg/m3)
+    'short_term_inhalation': 10,
+    # any decimal - DNEL or OEL (ug/cm2)
+    'local_dermal': 10,
+    # any decimal - Pascal
+    'vap_pressure_at_operating_temp': 7832.4225,
+    # can be PROC1 to PROC25
+    'proc': 'PROC7',
+    # can be 'ind' or 'prof'
+    'ind_prof': 'ind',
+    # can be 'solid' or 'liquid'
+    'phys_state': 'liquid',
+    # can be:
+    # - 'very low'
+    # - 'low'
+    # - 'medium'
+    # - 'high'
+    'fugacity': 'very low',
+    # can be:
+    # - 'outdoors'
+    # - 'indoors - no or basic ventilation'
+    # - 'indoors - good ventilation'
+    # - 'indoors - enhanced ventilation'
+    'ventilation': 'indoors - no or basic ventilation',
+    # can be:
+    # - '<15min'
+    # - '15min-1hr'
+    # - '1-4hr'
+    # - '>4hr'
+    'duration': '>4hr',
+    # can be:
+    # - '<1%'
+    # - '1-5%'
+    # - '5-25%'
+    # - '>25%'
+    'concentration': '>25%',
+    # can be:
+    #  - 'yes'
+    #  - 'no'
+    'lev': 'no',
+    # can be:
+    #  - 'no RPE'
+    #  - 'RPE90%'
+    #  - 'RPE95%'
+    'rpe_mask': 'no RPE',
+    # can be:
+    # - 'no PPE'
+    # - 'PPE80%'
+    # - 'PPE90%'
+    # - 'PPE95%'
+    'ppe_gloves': 'no PPE',
+    # can be:
+    # - 'yes'
+    # - 'no'
+    'lev_dermal': 'no'
+}
+
+# ------------------------------------------------------------------- #
+
 
 def calc_fugacity_band(dict):
     vap = dict['vap_pressure_at_operating_temp']
@@ -293,6 +374,54 @@ def calc_predicted_rcr_local_dermal(dict):
     return prld
 
 
+def choose_message_vapour_exposure(dict):
+    phys = dict['phys_state']
+    proc = dict['proc']
+    indprof = dict['ind_prof']
+    lev = dict['lev']
+    if phys == 'liquid' and (
+        (proc == 'PROC7' and indprof == 'ind') or
+        (proc == 'PROC10' and lev == 'no') or
+        (proc == 'PROC11' and indprof == 'prof') or
+        (proc in ['PROC17', 'PROC18']) or
+        (proc == 'PROC19' and lev == 'no')
+    ):
+        dict['message_vapour_exposure'] = 'Note that the TRA predicts vapour phase exposure; exposure by aerosols is not taken into account; if aerosol formation is relevant, refer to other information or models. '
+    else:
+        dict['message_vapour_exposure'] = ''
+
+
+def choose_message_no_reduction_lev(dict):
+    if dict['proc'] == 'PROC1' and dict['lev'] == 'yes':
+        dict['message_no_reduction_lev'] = 'No reduction for LEV for PROC1. '
+    else:
+        dict['message_no_reduction_lev'] = ''
+
+
+def choose_message_no_reduction_dermal_estimate(dict):
+    if dict['duration_reduction_factor_dermal'] > dict['duration_reduction_factor_inhalation']:
+        dict['message_no_reduction_dermal_estimate'] = "No reduction for duration on dermal estimate. "
+    else:
+        dict['message_no_reduction_dermal_estimate'] = ""
+
+
+def choose_remarks(dict):
+    if dict['phys_state'] == 'solid' and dict['fugacity'] == 'very low':
+        dict['remarks'] = 'Incorrect fugacity for solids. '
+    elif dict['initial_estimate_inhalation'] == 'n/a':
+        result = df.loc[df['descriptor/look-up term inhalation']
+                        == dict['concat_lookup_descriptor'], 'Message supporting exposure prediction']
+        dict['remarks'] = result.values[0] if not result.empty else ''
+    elif dict['ventilation'] == 'outdoors' and dict['lev'] == 'yes':
+        dict['remarks'] = "Combination 'outdoors' and 'LEV' not allowed. "
+    elif dict['ind_prof'] == 'prof' and dict['ventilation'] == 'indoors - enhanced ventilation' and dict['lev'] == 'yes':
+        dict['remarks'] = "Combination  'indoors - enhanced ventilation' and 'LEV' not allowed for professional setting. "
+    else:
+        dict['remarks'] = dict['message_vapour_exposure'] + \
+            dict['message_no_reduction_lev'] + \
+            dict['message_no_reduction_dermal_estimate']
+
+
 def calculate_all(dict):
     calculate_ventilation_reduction_factor(dict)
     calculate_duration_reduction_factor_inhalation(dict)
@@ -313,4 +442,14 @@ def calculate_all(dict):
     calc_predicted_rcr_long_term_dermal(dict)
     calc_predicted_rcr_short_term_inhalation(dict)
     calc_predicted_rcr_local_dermal(dict)
+    choose_message_vapour_exposure(dict)
+    choose_message_no_reduction_lev(dict)
+    choose_message_no_reduction_dermal_estimate(dict)
+    choose_remarks(dict)
     return dict
+
+
+calculated_dict = calculate_all(example_user_inputs)
+
+for key, value in calculated_dict.items():
+    print(f'{key}: {value}')
