@@ -1,135 +1,113 @@
-{% extends 'base.html' %}
+{% extends 'base.html' %} {% block content %}
 
-{% block content %}
-    
-    <table>
-        <tr>
-            <td>
-                Substance name
-            </td>
-            <td>
-                {{dict.substance_name}}
-            </td>
-        </tr>
-        <tr>
-            <td>
-                CAS number
-            </td>
-            <td>
-                {{dict.cas_number}}
-            </td>
-        </tr>
-        <tr>
-            <td>
-                Molecular weight
-            </td>
-            <td>
-                {{dict.molecular_weight}} g/mol
-            </td>
-        </tr>
-        <tr>
-            <td>
-                Long-term inhalation
-            </td>
-            <td>
-                {{dict.long_term_inhalation}} mg/m<sup>3</sup>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                Long-term dermal
-            </td>
-            <td>
-                {{dict.long_term_dermal}} mg/kg bw/day
-            </td>
-        </tr>
-        <tr>
-            <td>
-                Short-term inhalation
-            </td>
-            <td>
-                {{dict.short_term_inhalation}} mg/m<sup>3</sup>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                Local dermal
-            </td>
-            <td>
-                {{dict.local_dermal}} &#956;g/cm<sup>2</sup>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                Predicted 8hr inhalatory exposure
-            </td>
-            <td>
-                {{dict.predicted_8hr_inhalatory_exposure}} mg/m<sup>3</sup>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                Predicted 8hr dermal exposure
-            </td>
-            <td>
-                {{dict.predicted_8hr_dermal_exposure}} mg/kg bw/day
-            </td>
-        </tr>
-        <tr>
-            <td>
-                Predicted short-term inhalatory exposure
-            </td>
-            <td>
-                {{dict.predicted_short_term_inhalatory_exposure}} mg/m<sup>3</sup>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                Predicted local dermal exposure
-            </td>
-            <td>
-                {{dict.predicted_local_dermal_exposure}} &#956;g/cm<sup>2</sup>
-            </td>
-        <tr>
-            <td>
-                Predicted risk characterisation ratio (RCR) long-term inhalation
-            </td>
-            <td>
-                {{dict.predicted_RCR_long_term_inhalation}}
-            </td>
-        </tr>
-        <tr>
-            <td>
-                Predicted risk characterisation ratio (RCR) long-term dermal
-            </td>
-            <td>
-                {{dict.predicted_RCR_long_term_dermal}}
-            </td>
-        </tr>
-        <tr>
-            <td>
-                Predicted risk characterisation ratio (RCR) short-term inhalation
-            </td>
-            <td>
-                {{dict.predicted_rcr_short_term_inhalation}}
-            </td>
-        </tr>
-        <tr>
-            <td>
-                Predicted risk characterisation ratio (RCR) local dermal
-            </td>
-            <td>
-                {{dict.predicted_rcr_local_dermal}}
-            </td>
-        </tr>
-        <tr>
-            <td>
-                Calculation remarks
-            </td>
-            <td>
-                {{dict.remarks}}
-            </td>
-        </tr>
-        
-    </table>
+<table>
+  <tr>
+    <td>Substance name</td>
+    <td>{{dict.substance_name}}</td>
+  </tr>
+  <tr>
+    <td>CAS number</td>
+    <td>{{dict.cas_number}}</td>
+  </tr>
+  <tr>
+    <td>Molecular weight</td>
+    <td>{{dict.molecular_weight}} g/mol</td>
+  </tr>
+  <tr>
+    <td>Long-term inhalation</td>
+    <td>{{dict.long_term_inhalation}} mg/m<sup>3</sup></td>
+  </tr>
+  <tr>
+    <td>Long-term dermal</td>
+    <td>{{dict.long_term_dermal}} mg/kg bw/day</td>
+  </tr>
+  <tr>
+    <td>Short-term inhalation</td>
+    <td>{{dict.short_term_inhalation}} mg/m<sup>3</sup></td>
+  </tr>
+  <tr>
+    <td>Local dermal</td>
+    <td>{{dict.local_dermal}} &#956;g/cm<sup>2</sup></td>
+  </tr>
+  <tr>
+    <td>Predicted 8hr inhalatory exposure</td>
+    <td>
+      {% if dict.predicted_8hr_inhalatory_exposure is number %}
+      {{dict.predicted_8hr_inhalatory_exposure|round(2)}} mg/m<sup>3</sup> {%
+      else %} {{dict.predicted_8hr_inhalatory_exposure}} mg/m<sup>3</sup>
+      {% endif %}
+    </td>
+  </tr>
+  <tr>
+    <td>Predicted 8hr dermal exposure</td>
+    <td>
+      {% if dict.predicted_8hr_dermal_exposure is number %}
+      {{dict.predicted_8hr_dermal_exposure|round(2)}} mg/kg bw/day {% else %}
+      {{dict.predicted_8hr_dermal_exposure}} mg/kg bw/day {% endif %}
+    </td>
+  </tr>
+  <tr>
+    <td>Predicted short-term inhalatory exposure</td>
+    <td>
+      {% if dict.predicted_short_term_inhalatory_exposure is number %}
+      {{dict.predicted_short_term_inhalatory_exposure|round(2)}} mg/m<sup
+        >3</sup
+      >
+      {% else %} {{dict.predicted_short_term_inhalatory_exposure}} mg/m<sup
+        >3</sup
+      >
+      {% endif %}
+    </td>
+  </tr>
+  <tr>
+    <td>Predicted local dermal exposure</td>
+    <td>
+      {% if dict.predicted_local_dermal_exposure is number %}
+      {{dict.predicted_local_dermal_exposure|round(2)}} &#956;g/cm<sup
+        >2</sup
+      >
+      {% else %} {{dict.dict.predicted_local_dermal_exposure}} &#956;g/cm<sup
+        >2</sup
+      >
+      {% endif %}
+    </td>
+  </tr>
+
+  <tr>
+    <td>Predicted risk characterisation ratio (RCR) long-term inhalation</td>
+    <td>
+      {% if dict.predicted_RCR_long_term_inhalation is number %}
+      {{dict.predicted_RCR_long_term_inhalation|round(2)}} {% else %}
+      {{dict.predicted_RCR_long_term_inhalation}} {% endif %}
+    </td>
+  </tr>
+  <tr>
+    <td>Predicted risk characterisation ratio (RCR) long-term dermal</td>
+    <td>
+      {% if dict.predicted_RCR_long_term_dermal is number %}
+      {{dict.predicted_RCR_long_term_dermal|round(2)}} {% else %}
+      {{dict.predicted_RCR_long_term_dermal}} {% endif %}
+    </td>
+  </tr>
+  <tr>
+    <td>Predicted risk characterisation ratio (RCR) short-term inhalation</td>
+    <td>
+      {% if dict.predicted_rcr_short_term_inhalation is number %}
+      {{dict.predicted_rcr_short_term_inhalation|round(2)}} {% else %}
+      {{dict.predicted_rcr_short_term_inhalation}} {% endif %}
+    </td>
+  </tr>
+  <tr>
+    <td>Predicted risk characterisation ratio (RCR) local dermal</td>
+    <td>
+      {% if dict.predicted_rcr_local_dermal is number %}
+      {{dict.predicted_rcr_local_dermal|round(2)}} {% else %}
+      {{dict.predicted_rcr_local_dermal}} {% endif %}
+    </td>
+  </tr>
+  <tr>
+    <td>Calculation remarks</td>
+    <td>{{dict.remarks}}</td>
+  </tr>
+</table>
 {% endblock%}
